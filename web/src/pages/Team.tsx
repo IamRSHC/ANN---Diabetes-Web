@@ -15,8 +15,7 @@ export default function Team() {
         {MEMBERS.map((m) => (
           <div className="card team-card" key={m.reg}>
             <span className="avatar" aria-hidden="true">{m.ini}</span>
-            <h3>{m.name}</h3>
-            <span className="small muted num">{m.reg}</span>
+            <div className="team-text"><h3>{m.name}</h3><span className="small muted num">{m.reg}</span></div>
           </div>
         ))}
       </div>

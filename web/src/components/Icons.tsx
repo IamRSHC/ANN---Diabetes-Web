@@ -14,3 +14,5 @@ export const Shield = () => <svg {...base}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7
 export const Gauge = () => <svg {...base}><path d="M12 14l4-4" /><path d="M3.3 19a10 10 0 1 1 17.4 0" /></svg>;
 export const Layers = () => <svg {...base}><path d="M12 2l10 5-10 5L2 7l10-5z" /><path d="M2 17l10 5 10-5M2 12l10 5 10-5" /></svg>;
 export const Stethoscope = () => <svg {...base}><path d="M5 3v6a5 5 0 0 0 10 0V3" /><path d="M10 14v2a5 5 0 0 0 10 0v-3" /><circle cx="20" cy="11" r="2" /></svg>;
+export const Menu = () => <svg {...base}><path d="M4 7h16M4 12h16M4 17h16" /></svg>;
+export const Close = () => <svg {...base}><path d="M6 6l12 12M18 6L6 18" /></svg>;

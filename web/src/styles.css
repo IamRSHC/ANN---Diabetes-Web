@@ -183,4 +183,77 @@ table.t tr.hl td { background: var(--surface2); font-weight: 600; }
 
 /* team */
 .team-card { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; padding: 32px 24px; }
+.team-text { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .avatar { width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; margin-bottom: 8px; background: var(--chip); color: var(--chip-text); font-family: var(--display); font-weight: 800; font-size: 24px; }
+
+/* ---------- small screens ----------
+   Everything below only applies at narrow widths; desktop and tablet-landscape layouts are unchanged. */
+.nav-mobile, .mobile-menu, .menu-backdrop { display: none; }
+.icon-btn { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; }
+#screening { scroll-margin-top: 80px; }
+
+/* menu button instead of the full navbar once the links no longer fit on one line */
+@media (max-width: 860px) {
+  .nav-desktop { display: none; }
+  .nav-mobile { display: flex; gap: 8px; flex: none; }
+  .header .container { flex-wrap: nowrap; min-height: 62px; }
+  .brand { font-size: 17px; min-width: 0; white-space: nowrap; }
+  .mobile-menu { display: block; border-top: 1px solid var(--border); background: var(--bg); }
+  .header .mobile-menu .container { display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; flex-wrap: nowrap; gap: 0; min-height: 0; padding-top: 6px; padding-bottom: 10px; }
+  .mobile-menu a { padding: 14px 4px; font-size: 16px; font-weight: 600; color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border); }
+  .mobile-menu a:last-child { border-bottom: 0; }
+  .mobile-menu a.active { color: var(--primary); }
+  .menu-backdrop { display: block; position: fixed; inset: 0; z-index: 9; background: rgba(14, 21, 48, .28); }
+}
+
+/* phones */
+@media (max-width: 640px) {
+  main { padding: 20px 0 40px; }
+  .landing { gap: 28px; }
+  .landing-copy { gap: 16px; }
+  .landing-copy h1 { font-size: 36px; }
+  .landing-copy .lead { font-size: 16px; }
+  .landing-copy .row { flex-wrap: nowrap; gap: 10px; }
+  .landing-copy .row .btn { flex: 1 1 0; height: 48px; padding: 0 10px; font-size: 15px; white-space: nowrap; }
+  .landing-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding-top: 2px; }
+  .landing-stats b { font-size: 21px; }
+  .landing-stats span { font-size: 12px; line-height: 1.35; }
+
+  .wizard { padding: 18px 14px; gap: 12px; }
+  .qrow { flex-wrap: nowrap; gap: 12px; padding: 10px 10px 10px 14px; }
+  .qlabel { flex: 1 1 auto; min-width: 0; font-size: 15px; line-height: 1.35; }
+  .qctl { flex: none; }
+  .qrow.wide { flex-direction: column; align-items: stretch; gap: 8px; padding: 12px; }
+  .qrow.wide .qlabel { padding-left: 2px; }
+  .qrow.wide .qctl { width: 100%; }
+  .qrow.wide .select.sm { width: 100%; min-width: 0; max-width: none; }
+  .hw { width: 100%; }
+  .hw .input.sm { flex: 1 1 0; width: auto; min-width: 0; }
+  .days { width: 100%; }
+  .days input { flex: 1 1 auto; width: auto; }
+  .yn button { min-width: 52px; padding: 0 12px; }
+  .input, .select, .select.sm, .input.sm { font-size: 16px; } /* 16px stops iPhone Safari zooming into fields */
+
+  .hide-sm { display: none; }
+  table.t th { padding: 9px 6px; white-space: normal; font-size: 11px; letter-spacing: .02em; vertical-align: bottom; }
+  table.t td { padding: 10px 6px; }
+  .answers { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+  .answers div { display: flex; flex-direction: column; gap: 2px; font-size: 14px; }
+  .arch { flex-direction: column; }
+  .arch .box { flex: none; }
+  .arch .arrow { transform: rotate(90deg); line-height: 1; }
+  table.t td:first-child { white-space: normal; min-width: 90px; }
+  table.t .badge.small { padding: 3px 8px; font-size: 11px; white-space: nowrap; }
+  .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .grid-4 .stat .v { font-size: 22px; }
+  .team-card { flex-direction: row; text-align: left; gap: 16px; padding: 18px; }
+  .team-text { align-items: flex-start; gap: 2px; }
+  .avatar { width: 56px; height: 56px; font-size: 20px; margin-bottom: 0; flex: none; }
+}
+
+/* the narrowest phones (360px class) */
+@media (max-width: 380px) {
+  .card { padding: 16px 14px; }
+  table.t th, table.t td { padding-left: 4px; padding-right: 4px; }
+  table.t td:first-child { min-width: 72px; }
+}

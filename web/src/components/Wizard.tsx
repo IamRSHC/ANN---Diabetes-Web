@@ -1,5 +1,5 @@
 // The four-step screening form. Used as the card on the landing page and on the Screening page.
-import { useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../lib/store';
 import { ACCESS, AGE_BANDS, BMI_MAX, BMI_MIN, EDUCATION, GENHLTH, HISTORY, INCOME, LIFESTYLE, bmiOf } from '../lib/questions';
@@ -7,9 +7,10 @@ import type { Answers } from '../lib/types';
 
 const STEPS = ['About you', 'Health history', 'Lifestyle', 'Wellbeing and access'];
 
-function Row({ label, children, htmlFor }: { label: string; children: ReactNode; htmlFor?: string }) {
+// wide: on phones the control drops below the label and takes the full width (long selects, inputs, sliders).
+function Row({ label, children, htmlFor, wide }: { label: string; children: ReactNode; htmlFor?: string; wide?: boolean }) {
   return (
-    <div className="qrow">
+    <div className={`qrow${wide ? ' wide' : ''}`}>
       {htmlFor ? <label htmlFor={htmlFor} className="qlabel">{label}</label> : <span className="qlabel">{label}</span>}
       <div className="qctl">{children}</div>
     </div>
@@ -44,6 +45,15 @@ export default function Wizard() {
   const weightOk = weight >= 25 && weight <= 300;
   const bmiOk = heightOk && weightOk && Number.isFinite(bmi) && bmi >= BMI_MIN && bmi <= BMI_MAX;
   const last = step === STEPS.length - 1;
+  const cardRef = useRef<HTMLDivElement>(null);
+  const firstRender = useRef(true);
+
+  // On a phone the next step can start above the screen; bring the card's top back into view.
+  useEffect(() => {
+    if (firstRender.current) { firstRender.current = false; return; }
+    const card = cardRef.current;
+    if (card && card.getBoundingClientRect().top < 0) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [step]);
 
   async function next() {
     if (!last) { setStep(step + 1); return; }
@@ -68,7 +78,7 @@ export default function Wizard() {
   );
 
   return (
-    <div className="wizard card">
+    <div className="wizard card" id="screening" ref={cardRef}>
       <div className="wz-head">
         <span>Step {step + 1} of {STEPS.length} · {STEPS[step]}</span>
         <span className="num">{((step + 1) / STEPS.length) * 100}%</span>
@@ -80,7 +90,7 @@ export default function Wizard() {
           <>
             <Choice label="Sex" options={[['Female', 0], ['Male', 1]]} value={answers.Sex} onChange={set('Sex')} />
             <Row label="Age" htmlFor="age">{select('age', 'Age', AGE_BANDS, ' years')}</Row>
-            <Row label="Height and weight">
+            <Row label="Height and weight" wide>
               <div className="hw">
                 <input aria-label="Height in cm" className={`input sm${heightOk ? '' : ' bad'}`} type="number" inputMode="decimal" value={hStr} onChange={(e) => { setHStr(e.target.value); setHeight(parseFloat(e.target.value)); }} /><span>cm</span>
                 <input aria-label="Weight in kg" className={`input sm${weightOk ? '' : ' bad'}`} type="number" inputMode="decimal" value={wStr} onChange={(e) => { setWStr(e.target.value); setWeight(parseFloat(e.target.value)); }} /><span>kg</span>
@@ -92,21 +102,21 @@ export default function Wizard() {
                 : bmiOk ? <>BMI {bmi.toFixed(1)}</>
                 : <>A BMI of {bmi.toFixed(1)} is outside the survey range ({BMI_MIN} to {BMI_MAX}). Please check your height and weight.</>}
             </p>
-            <Row label="Education" htmlFor="edu">{select('edu', 'Education', EDUCATION)}</Row>
-            <Row label="Household income" htmlFor="inc">{select('inc', 'Income', INCOME)}</Row>
+            <Row label="Education" htmlFor="edu" wide>{select('edu', 'Education', EDUCATION)}</Row>
+            <Row label="Household income" htmlFor="inc" wide>{select('inc', 'Income', INCOME)}</Row>
           </>
         )}
         {step === 1 && (
           <>
-            <Row label="Your health in general" htmlFor="gen">{select('gen', 'GenHlth', GENHLTH)}</Row>
+            <Row label="Your health in general" htmlFor="gen" wide>{select('gen', 'GenHlth', GENHLTH)}</Row>
             {HISTORY.map((q) => <Choice key={q.key} label={q.question} options={NO_YES} value={answers[q.key]} onChange={set(q.key)} />)}
           </>
         )}
         {step === 2 && LIFESTYLE.map((q) => <Choice key={q.key} label={q.question} options={NO_YES} value={answers[q.key]} onChange={set(q.key)} />)}
         {step === 3 && (
           <>
-            <Row label="Days of poor mental health (last 30)">{days('MentHlth')}</Row>
-            <Row label="Days of poor physical health (last 30)">{days('PhysHlth')}</Row>
+            <Row label="Days of poor mental health (last 30)" wide>{days('MentHlth')}</Row>
+            <Row label="Days of poor physical health (last 30)" wide>{days('PhysHlth')}</Row>
             {ACCESS.map((q) => <Choice key={q.key} label={q.question} options={NO_YES} value={answers[q.key]} onChange={set(q.key)} />)}
           </>
         )}

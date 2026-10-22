@@ -1,16 +1,20 @@
+import { PHONE, useMedia } from '../lib/useMedia';
+
 // Histogram of the 50 Monte-Carlo dropout passes, with the screening threshold, the mean and the ±2σ band.
 export default function PassesChart({ passes, threshold, risk, band }: { passes: number[]; threshold: number; risk: number; band: [number, number] }) {
-  const W = 560, H = 210, L = 36, R = 30, T = 14, B = 34;
+  const phone = useMedia(PHONE);
+  const W = phone ? 340 : 560, H = phone ? 190 : 210, L = phone ? 26 : 36, R = phone ? 22 : 30, T = 14, B = 34;
   const lo0 = Math.min(...passes, threshold, band[0]), hi0 = Math.max(...passes, threshold, band[1]);
   const pad = Math.max((hi0 - lo0) * 0.12, 0.01);
   const lo = Math.max(0, lo0 - pad), hi = Math.min(1, hi0 + pad);
-  const nb = 16, bw = (hi - lo) / nb;
+  const nb = phone ? 12 : 16, bw = (hi - lo) / nb;
   const counts = Array.from({ length: nb }, () => 0);
   passes.forEach((p) => { counts[Math.min(nb - 1, Math.floor((p - lo) / bw))]++; });
   const maxC = Math.max(...counts, 1);
   const x = (v: number) => L + ((v - lo) / (hi - lo)) * (W - L - R);
   const y = (cnt: number) => H - B - (cnt / maxC) * (H - B - T);
-  const ticks = Array.from({ length: 5 }, (_, i) => lo + (i * (hi - lo)) / 4);
+  const nt = phone ? 3 : 5;
+  const ticks = Array.from({ length: nt }, (_, i) => lo + (i * (hi - lo)) / (nt - 1));
   return (
     <div className="stack" style={{ gap: 8 }}>
       <svg className="chart" viewBox={`0 0 ${W} ${H}`} width="100%" role="img" aria-label="Distribution of the 50 dropout passes">

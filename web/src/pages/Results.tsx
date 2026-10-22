@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useStore } from '../lib/store';
+import { PHONE, useMedia } from '../lib/useMedia';
 import { loadAnn, riskOf, type AnnModel } from '../lib/ann';
 import { DECISION_TEXT, pct } from '../lib/format';
 import { AGE_BANDS, EDUCATION, GENHLTH, INCOME, LABELS } from '../lib/questions';
@@ -76,17 +77,17 @@ function ModelTable({ models }: { models: ModelScore[] }) {
     <div className="stack">
       <div className="table-wrap">
         <table className="t">
-          <thead><tr><th>Model</th><th>Family</th><th className="r">Your risk</th><th className="r">Threshold</th><th>Decision</th><th className="r">Test ROC-AUC</th><th className="r">Test Brier</th></tr></thead>
+          <thead><tr><th>Model</th><th className="hide-sm">Family</th><th className="r">Your risk</th><th className="r hide-sm">Threshold</th><th>Decision</th><th className="r hide-sm">Test ROC-AUC</th><th className="r hide-sm">Test Brier</th></tr></thead>
           <tbody>
             {models.map((m) => (
               <tr key={m.name} className={m.family === 'Model 2' ? 'hl' : ''}>
                 <td>{m.name === 'Proposed ANN' ? 'Proposed ANN (ours)' : m.name}</td>
-                <td className="muted">{m.family}</td>
+                <td className="muted hide-sm">{m.family}</td>
                 <td className="r" style={{ color: decisionColor(m.decision), fontWeight: 700 }}>{pct(m.risk)}</td>
-                <td className="r">{pct(m.threshold, 0)}</td>
+                <td className="r hide-sm">{pct(m.threshold, 0)}</td>
                 <td><DecisionBadge d={m.decision} small /></td>
-                <td className="r">{m.roc_auc.toFixed(3)}</td>
-                <td className="r">{m.brier.toFixed(3)}</td>
+                <td className="r hide-sm">{m.roc_auc.toFixed(3)}</td>
+                <td className="r hide-sm">{m.brier.toFixed(3)}</td>
               </tr>
             ))}
           </tbody>
@@ -101,6 +102,7 @@ function ModelTable({ models }: { models: ModelScore[] }) {
 
 export default function Results() {
   const { result, retryModels } = useStore();
+  const phone = useMedia(PHONE);
   if (!result) {
     return (
       <div className="card stack" style={{ maxWidth: 640, margin: '0 auto', textAlign: 'center', alignItems: 'center' }}>
@@ -185,15 +187,23 @@ export default function Results() {
 
       <div className="card stack">
         <h3>Your answers</h3>
-        <div className="table-wrap">
-          <table className="t">
-            <tbody>
-              {(Object.keys(LABELS) as (keyof Answers)[]).reduce<(keyof Answers)[][]>((rows, k, i) => { if (i % 3 === 0) rows.push([]); rows[rows.length - 1].push(k); return rows; }, []).map((ks) => (
-                <tr key={ks.join()}>{ks.map((k) => <td key={k}><span className="muted small">{LABELS[k]}</span><br /><b>{answerText(k, input[k])}</b></td>)}</tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        {phone ? (
+          <div className="answers">
+            {(Object.keys(LABELS) as (keyof Answers)[]).map((k) => (
+              <div key={k}><span className="muted small">{LABELS[k]}</span><b>{answerText(k, input[k])}</b></div>
+            ))}
+          </div>
+        ) : (
+          <div className="table-wrap">
+            <table className="t">
+              <tbody>
+                {(Object.keys(LABELS) as (keyof Answers)[]).reduce<(keyof Answers)[][]>((rows, k, i) => { if (i % 3 === 0) rows.push([]); rows[rows.length - 1].push(k); return rows; }, []).map((ks) => (
+                  <tr key={ks.join()}>{ks.map((k) => <td key={k}><span className="muted small">{LABELS[k]}</span><br /><b>{answerText(k, input[k])}</b></td>)}</tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
         <p className="small muted">This is a screening aid built on self-reported BRFSS 2015 survey data. It is not a diagnosis. Only a blood test (HbA1c or fasting glucose) can confirm diabetes.</p>
       </div>
     </div>

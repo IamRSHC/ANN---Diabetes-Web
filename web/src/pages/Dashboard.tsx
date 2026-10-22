@@ -5,9 +5,9 @@ const R = meta.results;
 const ORDER = ['Proposed ANN', 'Stacking Ensemble', 'XGBoost', 'MLP (sklearn)', 'Random Forest', 'SVM (RBF)', 'Logistic Regression', 'KNN', 'Gaussian NB'];
 const rows = ORDER.map((m) => R.find((r) => r.model === m)!).filter(Boolean);
 type Row = (typeof R)[number];
-const COLS: { k: keyof Row; label: string; low?: boolean }[] = [
-  { k: 'ROC-AUC', label: 'ROC-AUC' }, { k: 'PR-AUC', label: 'PR-AUC' }, { k: 'Recall', label: 'Recall' }, { k: 'Specificity', label: 'Specificity' },
-  { k: 'Precision', label: 'Precision' }, { k: 'F2', label: 'F2' }, { k: 'Brier', label: 'Brier', low: true }, { k: 'Threshold', label: 'Threshold' },
+const COLS: { k: keyof Row; label: string; low?: boolean; sm?: boolean }[] = [
+  { k: 'ROC-AUC', label: 'ROC-AUC' }, { k: 'PR-AUC', label: 'PR-AUC', sm: false }, { k: 'Recall', label: 'Recall' }, { k: 'Specificity', label: 'Specificity', sm: false },
+  { k: 'Precision', label: 'Precision', sm: false }, { k: 'F2', label: 'F2', sm: false }, { k: 'Brier', label: 'Brier', low: true }, { k: 'Threshold', label: 'Threshold', sm: false },
 ];
 const best = (k: keyof Row, low?: boolean) => { const v = rows.map((r) => Number(r[k])); return low ? Math.min(...v) : Math.max(...v); };
 const unc = meta.uncertainty;
@@ -37,7 +37,7 @@ export default function Dashboard() {
         <h3>Test-set results</h3>
         <div className="table-wrap">
           <table className="t">
-            <thead><tr><th>Model</th>{COLS.map((c) => <th key={c.label} className="r">{c.label}</th>)}</tr></thead>
+            <thead><tr><th>Model</th>{COLS.map((c) => <th key={c.label} className={`r${c.sm === false ? ' hide-sm' : ''}`}>{c.label}</th>)}</tr></thead>
             <tbody>
               {rows.map((r) => (
                 <tr key={r.model} className={r.model === 'Proposed ANN' ? 'hl' : ''}>
@@ -45,7 +45,7 @@ export default function Dashboard() {
                   {COLS.map((c) => {
                     const v = Number(r[c.k]);
                     const isBest = c.k !== 'Threshold' && c.k !== 'Specificity' && c.k !== 'Precision' && v === best(c.k, c.low);
-                    return <td key={c.label} className={`r${isBest ? ' best' : ''}`}>{c.k === 'Threshold' ? v.toFixed(2) : v.toFixed(3)}</td>;
+                    return <td key={c.label} className={`r${isBest ? ' best' : ''}${c.sm === false ? ' hide-sm' : ''}`}>{c.k === 'Threshold' ? v.toFixed(2) : v.toFixed(3)}</td>;
                   })}
                 </tr>
               ))}
@@ -72,12 +72,12 @@ export default function Dashboard() {
         <h3>Ablation: what each component of the ANN adds</h3>
         <div className="table-wrap">
           <table className="t">
-            <thead><tr><th>Variant</th><th className="r">PR-AUC</th><th className="r">ROC-AUC</th><th className="r">Brier</th><th className="r">Recall @ F2</th><th className="r">F2</th></tr></thead>
+            <thead><tr><th>Variant</th><th className="r">PR-AUC</th><th className="r">ROC-AUC</th><th className="r">Brier</th><th className="r hide-sm">Recall @ F2</th><th className="r hide-sm">F2</th></tr></thead>
             <tbody>
               {meta.ablation.map((a, i) => (
                 <tr key={a.variant} className={i === meta.ablation.length - 1 ? 'hl' : ''}>
                   <td>{a.variant}</td><td className="r">{a['PR-AUC'].toFixed(4)}</td><td className="r">{a['ROC-AUC'].toFixed(4)}</td>
-                  <td className="r">{a.Brier.toFixed(4)}</td><td className="r">{a['Recall@F2'].toFixed(4)}</td><td className="r">{a.F2.toFixed(4)}</td>
+                  <td className="r">{a.Brier.toFixed(4)}</td><td className="r hide-sm">{a['Recall@F2'].toFixed(4)}</td><td className="r hide-sm">{a.F2.toFixed(4)}</td>
                 </tr>
               ))}
             </tbody>
@@ -113,10 +113,10 @@ export default function Dashboard() {
           <h3>Fairness check (ANN, test set)</h3>
           <div className="table-wrap">
             <table className="t">
-              <thead><tr><th>Group</th><th className="r">n</th><th className="r">Diabetes rate</th><th className="r">Recall</th><th className="r">Specificity</th></tr></thead>
+              <thead><tr><th>Group</th><th className="r hide-sm">n</th><th className="r">Diabetes rate</th><th className="r">Recall</th><th className="r">Specificity</th></tr></thead>
               <tbody>
                 {meta.bias.map((b) => (
-                  <tr key={b.attribute + b.group}><td>{b.attribute}: {b.group}</td><td className="r">{b.n.toLocaleString()}</td><td className="r">{(b['diabetes rate'] * 100).toFixed(1)}%</td><td className="r">{b.recall.toFixed(3)}</td><td className="r">{b.specificity.toFixed(3)}</td></tr>
+                  <tr key={b.attribute + b.group}><td>{b.attribute}: {b.group}</td><td className="r hide-sm">{b.n.toLocaleString()}</td><td className="r">{(b['diabetes rate'] * 100).toFixed(1)}%</td><td className="r">{b.recall.toFixed(3)}</td><td className="r">{b.specificity.toFixed(3)}</td></tr>
                 ))}
               </tbody>
             </table>
