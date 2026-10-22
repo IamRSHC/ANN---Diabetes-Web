@@ -16,3 +16,4 @@ export const Layers = () => <svg {...base}><path d="M12 2l10 5-10 5L2 7l10-5z" /
 export const Stethoscope = () => <svg {...base}><path d="M5 3v6a5 5 0 0 0 10 0V3" /><path d="M10 14v2a5 5 0 0 0 10 0v-3" /><circle cx="20" cy="11" r="2" /></svg>;
 export const Menu = () => <svg {...base}><path d="M4 7h16M4 12h16M4 17h16" /></svg>;
 export const Close = () => <svg {...base}><path d="M6 6l12 12M18 6L6 18" /></svg>;
+export const Expand = () => <svg {...base} width={18} height={18}><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" /></svg>;

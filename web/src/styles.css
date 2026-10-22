@@ -181,10 +181,35 @@ table.t tr.hl td { background: var(--surface2); font-weight: 600; }
 .wz-foot .btn { height: 46px; }
 @media (max-width: 640px) { .wizard { padding: 18px; } .select.sm { min-width: 0; max-width: 100%; } .days input { width: 140px; } }
 
-/* team */
-.team-card { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; padding: 32px 24px; }
-.team-text { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.avatar { width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; margin-bottom: 8px; background: var(--chip); color: var(--chip-text); font-family: var(--display); font-weight: 800; font-size: 24px; }
+/* team: sized so the whole page fits one laptop screen */
+.team-page { display: flex; flex-direction: column; gap: 22px; }
+.team-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.team-card { display: flex; flex-direction: column; gap: 14px; padding: 16px 16px 22px; }
+.team-photo { position: relative; width: 100%; height: clamp(190px, 34vh, 340px); border-radius: 12px; overflow: hidden; background: var(--surface2); }
+.team-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo-expand { position: absolute; right: 10px; bottom: 10px; width: 38px; height: 38px; display: grid; place-items: center; border-radius: 10px; border: 0; cursor: pointer; color: #0E1530; background: rgba(255, 255, 255, .85); backdrop-filter: blur(6px); box-shadow: 0 2px 8px rgba(0, 0, 0, .18); transition: transform .15s, background .15s; }
+.photo-expand:hover { background: #fff; transform: scale(1.06); }
+.lightbox { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 24px; background: rgba(8, 10, 16, .86); animation: fade .15s ease; }
+.lightbox figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.lightbox img { max-width: min(92vw, 900px); max-height: calc(100vh - 110px); object-fit: contain; border-radius: 12px; display: block; }
+.lightbox figcaption { color: #ECEFF3; font-family: var(--display); font-weight: 700; font-size: 16px; }
+.lightbox-close { position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px; border: 1px solid rgba(255, 255, 255, .25); background: rgba(255, 255, 255, .08); color: #fff; cursor: pointer; }
+.lightbox-close:hover { background: rgba(255, 255, 255, .18); }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+.team-initials { display: grid; place-items: center; font-family: var(--display); font-weight: 800; font-size: clamp(40px, 6vh, 64px); color: var(--chip-text); background: var(--chip); }
+.team-text { display: flex; flex-direction: column; gap: 2px; padding: 0 6px; }
+.team-text h3 { font-size: 20px; }
+.team-contrib { margin: 0; padding: 0 6px 0 24px; display: grid; align-content: start; gap: 6px; font-size: 14px; line-height: 1.45; color: var(--muted); }
+.team-contrib li::marker { color: var(--primary); }
+@media (max-width: 900px) { .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* desktop/laptop: the page fills exactly one screen. The photo row takes whatever height is left, and subgrid keeps
+   all three photos the same size even when one card has more text. */
+@media (min-width: 901px) and (min-height: 600px) {
+  .team-page { height: calc(100vh - 69px - 104px + 18px); margin-top: -18px; }
+  .team-grid { flex: 1; min-height: 0; grid-template-rows: minmax(140px, 1fr) auto auto; row-gap: 14px; column-gap: 20px; }
+  .team-card { display: grid; grid-row: span 3; grid-template-rows: subgrid; gap: 14px; }
+  .team-photo { height: 100%; min-height: 0; }
+}
 
 /* ---------- small screens ----------
    Everything below only applies at narrow widths; desktop and tablet-landscape layouts are unchanged. */
@@ -246,9 +271,8 @@ table.t tr.hl td { background: var(--surface2); font-weight: 600; }
   table.t .badge.small { padding: 3px 8px; font-size: 11px; white-space: nowrap; }
   .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .grid-4 .stat .v { font-size: 22px; }
-  .team-card { flex-direction: row; text-align: left; gap: 16px; padding: 18px; }
-  .team-text { align-items: flex-start; gap: 2px; }
-  .avatar { width: 56px; height: 56px; font-size: 20px; margin-bottom: 0; flex: none; }
+  .team-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .team-photo { height: 300px; }
 }
 
 /* the narrowest phones (360px class) */
