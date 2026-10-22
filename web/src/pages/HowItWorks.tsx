@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import meta from '../data/meta.json';
 import { Arrow } from '../components/Icons';
+import ArchDiagram from '../components/ArchDiagram';
 
 const a = meta.ann;
 
@@ -14,25 +15,8 @@ export default function HowItWorks() {
 
       <div className="card stack">
         <h3>The proposed network (Model 2)</h3>
-        <div className="arch" aria-label="Network pipeline">
-          <div className="box"><b>21 answers</b>BMI and day counts standardised, ordinal answers scaled to 0-1</div>
-          <span className="arrow">→</span>
-          <div className="box"><b>Dense {a.hidden[0]} · ReLU</b>dropout {a.dropout}</div>
-          <span className="arrow">→</span>
-          <div className="box"><b>Dense {a.hidden[1]} · ReLU</b>dropout {a.dropout}</div>
-          <span className="arrow">→</span>
-          <div className="box"><b>1 logit z</b>raw score</div>
-          <span className="arrow">→</span>
-          <div className="box"><b>Calibration</b>σ(z / T + b), T = {a.temperature.toFixed(3)}, b = {a.bias.toFixed(3)}</div>
-        </div>
-        <div className="arch">
-          <div className="box"><b>× {a.mc_passes} passes</b>dropout stays on at prediction time (Monte-Carlo dropout)</div>
-          <span className="arrow">→</span>
-          <div className="box"><b>Mean μ and spread σ</b>μ is your risk; μ ± 2σ is the band</div>
-          <span className="arrow">→</span>
-          <div className="box"><b>Decision</b>|μ − {a.threshold.toFixed(2)}| / σ &lt; {a.tau.toFixed(2)} → refer; otherwise higher or lower risk</div>
-        </div>
-        <p className="small muted">Forward pass, backpropagation, dropout and the Adam optimiser were written by hand in NumPy and checked with a numerical gradient check. The same network runs in your browser in TypeScript, using the same random-number generator as NumPy, so it gives exactly the same result as the Python model.</p>
+        <ArchDiagram />
+        <p className="small muted">The example is a real prediction from the trained model (female, 50-54, BMI 36, high blood pressure and cholesterol, difficulty walking). Forward pass, backpropagation, dropout and the Adam optimiser were written by hand in NumPy and checked with a numerical gradient check. The same network runs in your browser in TypeScript, using the same random-number generator as NumPy, so it gives exactly the same result as the Python model.</p>
       </div>
 
       <div className="grid-2">
