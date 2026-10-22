@@ -1,0 +1,367 @@
+{
+ "results": [
+  {
+   "model": "Logistic Regression",
+   "Accuracy": 0.6866,
+   "Precision": 0.2858,
+   "Recall": 0.8335,
+   "Specificity": 0.6629,
+   "F1": 0.4257,
+   "F2": 0.6026,
+   "ROC-AUC": 0.8236,
+   "PR-AUC": 0.4119,
+   "Brier": 0.1765,
+   "Threshold": 0.43
+  },
+  {
+   "model": "KNN",
+   "Accuracy": 0.6678,
+   "Precision": 0.2728,
+   "Recall": 0.8311,
+   "Specificity": 0.6414,
+   "F1": 0.4108,
+   "F2": 0.5897,
+   "ROC-AUC": 0.8095,
+   "PR-AUC": 0.382,
+   "Brier": 0.1011,
+   "Threshold": 0.12
+  },
+  {
+   "model": "SVM (RBF)",
+   "Accuracy": 0.682,
+   "Precision": 0.284,
+   "Recall": 0.8435,
+   "Specificity": 0.6558,
+   "F1": 0.425,
+   "F2": 0.6051,
+   "ROC-AUC": 0.8267,
+   "PR-AUC": 0.412,
+   "Brier": 0.0979,
+   "Threshold": 0.11
+  },
+  {
+   "model": "Random Forest",
+   "Accuracy": 0.6892,
+   "Precision": 0.2873,
+   "Recall": 0.8308,
+   "Specificity": 0.6663,
+   "F1": 0.4269,
+   "F2": 0.6027,
+   "ROC-AUC": 0.8268,
+   "PR-AUC": 0.4211,
+   "Brier": 0.172,
+   "Threshold": 0.45
+  },
+  {
+   "model": "XGBoost",
+   "Accuracy": 0.702,
+   "Precision": 0.2955,
+   "Recall": 0.8227,
+   "Specificity": 0.6824,
+   "F1": 0.4348,
+   "F2": 0.6063,
+   "ROC-AUC": 0.8296,
+   "PR-AUC": 0.4261,
+   "Brier": 0.1756,
+   "Threshold": 0.47
+  },
+  {
+   "model": "Gaussian NB",
+   "Accuracy": 0.6473,
+   "Precision": 0.2611,
+   "Recall": 0.8372,
+   "Specificity": 0.6165,
+   "F1": 0.3981,
+   "F2": 0.5809,
+   "ROC-AUC": 0.7858,
+   "PR-AUC": 0.3401,
+   "Brier": 0.1931,
+   "Threshold": 0.03
+  },
+  {
+   "model": "MLP (sklearn)",
+   "Accuracy": 0.69,
+   "Precision": 0.2883,
+   "Recall": 0.8345,
+   "Specificity": 0.6666,
+   "F1": 0.4286,
+   "F2": 0.6052,
+   "ROC-AUC": 0.8284,
+   "PR-AUC": 0.4221,
+   "Brier": 0.0974,
+   "Threshold": 0.12
+  },
+  {
+   "model": "Stacking Ensemble",
+   "Accuracy": 0.6812,
+   "Precision": 0.2838,
+   "Recall": 0.8454,
+   "Specificity": 0.6546,
+   "F1": 0.4249,
+   "F2": 0.6056,
+   "ROC-AUC": 0.8296,
+   "PR-AUC": 0.425,
+   "Brier": 0.0972,
+   "Threshold": 0.1
+  },
+  {
+   "model": "Proposed ANN",
+   "Accuracy": 0.6879,
+   "Precision": 0.2873,
+   "Recall": 0.8379,
+   "Specificity": 0.6636,
+   "F1": 0.4279,
+   "F2": 0.6058,
+   "ROC-AUC": 0.8281,
+   "PR-AUC": 0.4209,
+   "Brier": 0.0974,
+   "Threshold": 0.12
+  }
+ ],
+ "ablation": [
+  {
+   "variant": "Plain MLP (BCE, no weighting)",
+   "PR-AUC": 0.4318,
+   "ROC-AUC": 0.8305,
+   "Brier": 0.0967,
+   "Recall@F2": 0.8453,
+   "F2": 0.6073
+  },
+  {
+   "variant": "+ class-weighted BCE",
+   "PR-AUC": 0.4333,
+   "ROC-AUC": 0.8299,
+   "Brier": 0.1708,
+   "Recall@F2": 0.8571,
+   "F2": 0.6065
+  },
+  {
+   "variant": "+ class-weighted focal loss",
+   "PR-AUC": 0.4343,
+   "ROC-AUC": 0.8297,
+   "Brier": 0.1847,
+   "Recall@F2": 0.8389,
+   "F2": 0.6064
+  },
+  {
+   "variant": "+ MC dropout (50 passes) + calibration",
+   "PR-AUC": 0.4345,
+   "ROC-AUC": 0.8296,
+   "Brier": 0.0967,
+   "Recall@F2": 0.841,
+   "F2": 0.6064
+  }
+ ],
+ "uncertainty": [
+  {
+   "group": "Accepted (model decides)",
+   "cases": 45543.0,
+   "share": 0.8976466414380322,
+   "error rate": 0.2908020991151219,
+   "recall": 0.8639975073999066,
+   "diabetes rate": 0.1409437235140416
+  },
+  {
+   "group": "Referred to doctor",
+   "cases": 5193.0,
+   "share": 0.1023533585619678,
+   "error rate": 0.4991334488734835,
+   "recall": 0.58,
+   "diabetes rate": 0.1251684960523782
+  }
+ ],
+ "abstention_rules": [
+  {
+   "group": "Margin rule |mu - t|/sigma < tau (used)",
+   "referred": 5193.0,
+   "error rate referred": 0.4991334488734835,
+   "error rate accepted": 0.2908020991151219
+  },
+  {
+   "group": "Naive rule sigma > 90th pct",
+   "referred": 5145.0,
+   "error rate referred": 0.5403304178814383,
+   "error rate accepted": 0.2863723103244061
+  }
+ ],
+ "bias": [
+  {
+   "attribute": "Sex",
+   "group": "Female",
+   "n": 28443,
+   "diabetes rate": 0.1289,
+   "recall": 0.8227,
+   "specificity": 0.6991
+  },
+  {
+   "attribute": "Sex",
+   "group": "Male",
+   "n": 22293,
+   "diabetes rate": 0.1526,
+   "recall": 0.8542,
+   "specificity": 0.617
+  },
+  {
+   "attribute": "Age band",
+   "group": "18-39",
+   "n": 7585,
+   "diabetes rate": 0.0279,
+   "recall": 0.4481,
+   "specificity": 0.9451
+  },
+  {
+   "attribute": "Age band",
+   "group": "40-59",
+   "n": 18668,
+   "diabetes rate": 0.1093,
+   "recall": 0.7691,
+   "specificity": 0.7455
+  },
+  {
+   "attribute": "Age band",
+   "group": "60-69",
+   "n": 13032,
+   "diabetes rate": 0.1899,
+   "recall": 0.8735,
+   "specificity": 0.5529
+  },
+  {
+   "attribute": "Age band",
+   "group": "70+",
+   "n": 11451,
+   "diabetes rate": 0.2045,
+   "recall": 0.8954,
+   "specificity": 0.4144
+  },
+  {
+   "attribute": "Income band",
+   "group": "< $20k",
+   "n": 7463,
+   "diabetes rate": 0.2419,
+   "recall": 0.9285,
+   "specificity": 0.4031
+  },
+  {
+   "attribute": "Income band",
+   "group": "$20-50k",
+   "n": 16513,
+   "diabetes rate": 0.1634,
+   "recall": 0.8733,
+   "specificity": 0.5654
+  },
+  {
+   "attribute": "Income band",
+   "group": "> $50k",
+   "n": 26760,
+   "diabetes rate": 0.0959,
+   "recall": 0.7368,
+   "specificity": 0.7805
+  }
+ ],
+ "shap_ann": [
+  {
+   "feature": "GenHlth",
+   "importance": 0.0453
+  },
+  {
+   "feature": "BMI",
+   "importance": 0.0376
+  },
+  {
+   "feature": "HighBP",
+   "importance": 0.033
+  },
+  {
+   "feature": "HighChol",
+   "importance": 0.0259
+  },
+  {
+   "feature": "Age",
+   "importance": 0.0257
+  },
+  {
+   "feature": "Sex",
+   "importance": 0.0124
+  },
+  {
+   "feature": "Income",
+   "importance": 0.0117
+  },
+  {
+   "feature": "HeartDiseaseorAttack",
+   "importance": 0.0079
+  },
+  {
+   "feature": "DiffWalk",
+   "importance": 0.0055
+  },
+  {
+   "feature": "HvyAlcoholConsump",
+   "importance": 0.0053
+  },
+  {
+   "feature": "Education",
+   "importance": 0.005
+  },
+  {
+   "feature": "Smoker",
+   "importance": 0.0031
+  },
+  {
+   "feature": "PhysHlth",
+   "importance": 0.0029
+  },
+  {
+   "feature": "MentHlth",
+   "importance": 0.0028
+  },
+  {
+   "feature": "PhysActivity",
+   "importance": 0.0025
+  },
+  {
+   "feature": "Veggies",
+   "importance": 0.0022
+  },
+  {
+   "feature": "Stroke",
+   "importance": 0.0022
+  },
+  {
+   "feature": "Fruits",
+   "importance": 0.0022
+  },
+  {
+   "feature": "CholCheck",
+   "importance": 0.0019
+  },
+  {
+   "feature": "NoDocbcCost",
+   "importance": 0.0008
+  },
+  {
+   "feature": "AnyHealthcare",
+   "importance": 0.0005
+  }
+ ],
+ "ann": {
+  "hidden": [
+   64,
+   32
+  ],
+  "dropout": 0.2,
+  "temperature": 0.3465849913819033,
+  "bias": -1.7864826446216968,
+  "threshold": 0.12000000000000001,
+  "tau": 1.100782362556415,
+  "mc_passes": 50,
+  "focal_alpha": 0.86,
+  "focal_gamma": 2.0
+ },
+ "dataset": {
+  "respondents": 253680,
+  "features": 21,
+  "prevalence": 0.1393,
+  "test_size": 50736
+ }
+}

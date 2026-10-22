@@ -1,0 +1,10 @@
+# Node / website
+web/node_modules/
+web/dist/
+web/.env
+web/*.local
+
+# Python / API
+__pycache__/
+.pytest_cache/
+.venv/
