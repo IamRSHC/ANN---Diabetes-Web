@@ -46,6 +46,7 @@ function PhoneLayout() {
         <h3>The proposed network (Model 2)</h3>
         <ArchDiagram />
         <p className="small muted">{CAPTION}</p>
+        <div className="na-band"><Link to="/how-it-works/network" className="na-link">▶ Watch the network run: an animated walkthrough of one prediction, pass by pass</Link></div>
       </div>
       <div className="grid-2">
         {NOVELTY.map(([n, t, x]) => <div className="card card-tight stack" key={n} style={{ gap: 8 }}><h3>{t}</h3><p className="small muted">{x}</p></div>)}
@@ -74,6 +75,7 @@ export default function HowItWorks() {
           <ArchDiagram />
         </div>
         <figcaption className="small muted">{CAPTION}</figcaption>
+        <div className="na-band"><Link to="/how-it-works/network" className="na-link">▶ Watch the network run: an animated walkthrough of one prediction, pass by pass</Link></div>
       </figure>
 
       <section>

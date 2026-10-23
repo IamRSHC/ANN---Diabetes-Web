@@ -6,6 +6,7 @@ import Results from './pages/Results';
 import Dashboard from './pages/Dashboard';
 import HowItWorks from './pages/HowItWorks';
 import Team from './pages/Team';
+import NetworkAnimation from './pages/NetworkAnimation';
 import { Close, Logo, Menu, Moon, Sun } from './components/Icons';
 
 const LINKS: [string, string][] = [['/results', 'Results'], ['/models', 'Model performance'], ['/how-it-works', 'How it works'], ['/team', 'Team']];
@@ -68,6 +69,7 @@ export default function App() {
             <Route path="/results" element={<Results />} />
             <Route path="/models" element={<Dashboard />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/how-it-works/network" element={<NetworkAnimation />} />
             <Route path="/team" element={<Team />} />
             <Route path="*" element={<Home />} />
           </Routes>
