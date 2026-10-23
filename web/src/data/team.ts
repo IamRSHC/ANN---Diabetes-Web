@@ -21,7 +21,7 @@ export const TEAM: Member[] = [
     full: '/team/hareecharan-full.jpg',
     focus: '50% 18%',
     contributions: [
-      'Led the project: problem statement, novelty and review plan',
+      'Led the project: chose the novelty and planned the reviews',
       'Designed the leakage-free split and locked test protocol',
       'Built Model 2: NumPy ANN with focal loss, MC dropout and calibration',
       'Ran the ablation, uncertainty and bias analysis',
@@ -33,7 +33,14 @@ export const TEAM: Member[] = [
     reg: 'RA2411026050334',
     initials: 'SB',
     photo: '/team/shakthi-balan.jpg',
-    contributions: [],
+    full: '/team/shakthi-balan-full.jpg',
+    focus: '50% 32%',
+    contributions: [
+      'Re-ran the full notebook on a second laptop to confirm the results reproduce',
+      'Verified the API and all nine models against the notebook outputs',
+      'Cross-checked every number in the report against the notebook',
+      'Prepared the presentation in the SRM format for the project reviews',
+    ],
   },
   {
     name: 'Manoranjan U S',
@@ -42,6 +49,11 @@ export const TEAM: Member[] = [
     photo: '/team/manoranjan.jpg',
     full: '/team/manoranjan-full.jpg',
     focus: '50% 24%',
-    contributions: [],
+    contributions: [
+      'Tested the screening wizard: invalid inputs, edge cases and all three outcomes',
+      'Ran the six reference test profiles and reported the results',
+      "Checked the deployed app's predictions against the notebook",
+      'Helped write the report and suggested changes to the drafts',
+    ],
   },
 ];
